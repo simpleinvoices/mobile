@@ -2,12 +2,12 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
-  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import WebView from 'react-native-webview';
 import type {WebViewNavigation} from 'react-native-webview';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -17,6 +17,7 @@ import type {RootStackParamList} from '../../App';
 type Props = NativeStackScreenProps<RootStackParamList, 'WebView'>;
 
 export default function WebViewScreen({navigation}: Props): React.JSX.Element {
+  const insets = useSafeAreaInsets();
   const webViewRef = useRef<WebView>(null);
   const [instanceUrl, setInstanceUrl] = useState<string | null>(null);
   const [canGoBack, setCanGoBack] = useState(false);
@@ -68,7 +69,7 @@ export default function WebViewScreen({navigation}: Props): React.JSX.Element {
 
   return (
     <View style={styles.container}>
-      <View style={styles.navbar}>
+      <View style={[styles.navbar, {paddingTop: insets.top + 8}]}>
         <TouchableOpacity
           style={styles.navBtn}
           onPress={() => webViewRef.current?.goBack()}
@@ -151,7 +152,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 8,
-    paddingTop: Platform.OS === 'ios' ? 50 : 8,
     paddingBottom: 8,
     backgroundColor: '#1e40af',
   },
@@ -175,9 +175,9 @@ const styles = StyleSheet.create({
   },
   loadingBar: {
     position: 'absolute',
-    top: Platform.OS === 'ios' ? 98 : 50,
     left: 0,
     right: 0,
+    bottom: 0,
     height: 2,
     backgroundColor: '#bfdbfe',
   },

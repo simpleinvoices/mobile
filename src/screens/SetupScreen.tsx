@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {getInstanceUrl, saveInstanceUrl} from '../storage/config';
 import type {RootStackParamList} from '../../App';
@@ -71,6 +72,7 @@ export default function SetupScreen({navigation}: Props): React.JSX.Element {
   }
 
   return (
+    <SafeAreaView style={styles.flex}>
     <KeyboardAvoidingView
       style={styles.flex}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -117,6 +119,7 @@ export default function SetupScreen({navigation}: Props): React.JSX.Element {
         </Text>
       </ScrollView>
     </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
